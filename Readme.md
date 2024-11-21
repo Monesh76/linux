@@ -1,3 +1,4 @@
+Question 2:
 Describe in detail the steps you used to complete the assignment. Consider your reader to be someone
 skilled in software development but otherwise unfamiliar with the assignment. Good answers to this
 question will be recipes that someone can follow to reproduce your development steps.
@@ -153,7 +154,8 @@ git add .
 git commit -m "Add KVM exit tracking functionality"
 git push origin master
 
-Question 3) Comment on the frequency of exits – does the number of exits increase at a stable rate? Or are there
+Question 3:
+Comment on the frequency of exits – does the number of exits increase at a stable rate? Or are there
 more exits performed during certain VM operations? Approximately how many exits does a full VM
 boot entail?
 Observations: 
@@ -168,7 +170,8 @@ Estimated Exits During VM Boot:
 As seen with MSR_WRITE and other types, booting the virtual machine causes roughly 10,000–20,000 exits for every 10,000-threshold snapshot.
 This suggests that there will probably be more than 100,000 exits during a full boot.
 
-Question 4) Of the exit types, which are the most frequent? Least?
+Question 4:
+Of the exit types, which are the most frequent? Least?
 
 Most Frequent Exit Types:
 Exit Type 30: MSR_WRITE
