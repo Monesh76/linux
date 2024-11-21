@@ -78,13 +78,13 @@ This function is where KVM processes different types of VM exits
 
 Check for __vmx_handle_exit function and change the add the code menioned below
 
-/* Define global counters at the top of the file */
-static unsigned long long exit_counts[256] = {0};  // Array for per-exit-type counters
-static unsigned long long total_exit_count = 0;    // Global total exit counter
-#define EXIT_PRINT_THRESHOLD 10000                 // Threshold for printing exit stats
+    /* Define global counters at the top of the file */
+    static unsigned long long exit_counts[256] = {0};  // Array for per-exit-type counters
+    static unsigned long long total_exit_count = 0;    // Global total exit counter
+    #define EXIT_PRINT_THRESHOLD 10000                 // Threshold for printing exit stats
 
-/* Helper function to convert exit reason to a human-readable string */
-static const char *get_exit_reason_name(int reason) {
+    /* Helper function to convert exit reason to a human-readable string */
+    static const char *get_exit_reason_name(int reason) {
     switch (reason) {
     case 0: return "EXCEPTION_NMI";
     case 1: return "EXTERNAL_INTERRUPT";
@@ -95,10 +95,10 @@ static const char *get_exit_reason_name(int reason) {
     case 48: return "EPT_MISCONFIG";
     default: return "UNKNOWN_EXIT";
     }
-}
+    }
 
-/* Function to log exit statistics */
-static void log_exit_statistics(void) {
+    /* Function to log exit statistics */
+    static void log_exit_statistics(void) {
     int i;
     printk(KERN_INFO "KVM Exit Statistics (Every %d exits):\n", EXIT_PRINT_THRESHOLD);
     for (i = 0; i < 256; i++) {
@@ -107,18 +107,20 @@ static void log_exit_statistics(void) {
                    i, get_exit_reason_name(i), exit_counts[i]);
         }
     }
-}
+    }
 
-/* Modify the __vmx_handle_exit function */
-static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath) {
+    /* Modify the __vmx_handle_exit function */
+    static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath) {
     struct vcpu_vmx *vmx = to_vmx(vcpu);
     union vmx_exit_reason exit_reason = vmx->exit_reason;
     u32 vectoring_info = vmx->idt_vectoring_info;
     u16 exit_handler_index;
+
     /* Update exit counters */
     int exit_type = exit_reason.basic;  // Get the basic exit type
     exit_counts[exit_type]++;
     total_exit_count++;
+
     /* Log exit statistics every EXIT_PRINT_THRESHOLD exits */
     if (total_exit_count % EXIT_PRINT_THRESHOLD == 0) {
         log_exit_statistics();
@@ -127,6 +129,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath) {
     /* Continue with the original exit handling logic */
     ...
 }
+
 Save the file and exit vi
 
 Rebuild the kernel with your changes:
@@ -187,15 +190,3 @@ These types also show minimal counts (around 3 occurrences) across logs.
 
 Exit Type 12: UNKNOWN_EXIT
 Counts remain very low, often below 10,000, linked to specific operations or VM state changes.
-
-
-
-
-
-
-
-
-
-
-
-
