@@ -8,13 +8,20 @@ To Complete this assignment we should have a working configuration we have done 
 STEP 1:
 First we should  Fork the Linux kernel repository from GitHub i.e https://github.com/torvalds/linux
 
+
+<img width="717" alt="Screenshot 2024-11-19 at 3 57 45 PM" src="https://github.com/user-attachments/assets/0f26c8b9-94a7-4697-a12e-0b4bace0a82e">
+
 We should clone forked repository into outer vm using the below command
 git clone https://github.com/<your-username>/linux.git (keep your github username in place of your-username) 
 Use cd linux to change the directory
 
 Run the make menuconfig command to configure the kernel and make sure KVM support is enabled in the kernel 
 configuration. You can do this by navigating to Virtualization options and enabling KVM for x86 processors.
+<img width="881" alt="Screenshot 2024-11-19 at 4 06 59 PM" src="https://github.com/user-attachments/assets/1b769fd9-6c2d-437f-abb6-606adfa32b1f">
+
 If the "make" is not installed you can do this by running "sudo apt install make" command
+<img width="795" alt="Screenshot 2024-11-19 at 4 00 47 PM" src="https://github.com/user-attachments/assets/26df6c7a-efb6-4f12-970f-b224b5e5448c">
+
 Build the Kernel with "make -j$(nproc)" Command. If you run into any errors during the build you can follow these steps
 
 Sometimes, residual files from previous build attempts cause conflicts. Clean up the build environment with:
@@ -26,6 +33,8 @@ Replace (your gcp config) with the actual filename of the configuration file in 
 config-5.15.0-1036-gcp
 
 Double-check that all required packages for building the kernel are installed. Run the following command to install essential tools:
+<img width="882" alt="Screenshot 2024-11-19 at 4 01 47 PM" src="https://github.com/user-attachments/assets/cdf73512-5b68-44da-98f4-de30e7efab04">
+
 sudo apt update
 sudo apt install build-essential libncurses-dev bison flex libssl-dev libelf-dev
 
@@ -56,6 +65,8 @@ Install the Test Kernel: After verifying that everything is in place (including 
 sudo make modules_install
 sudo make install
 
+<img width="1512" alt="Screenshot 2024-11-19 at 7 15 58 PM" src="https://github.com/user-attachments/assets/6d264a53-028b-49e5-b14e-0e294b21032e">
+
 On systems using GRUB as the bootloader, update the GRUB configuration to include the new kernel:
 sudo update-grub
 
@@ -66,6 +77,8 @@ STEP 2:
 After the reboot, you can confirm that the new kernel is in use by running:
 uname -r
 This should output 6.12.0+, indicating that the system has booted into the new kernel we built.
+
+<img width="453" alt="Screenshot 2024-11-19 at 8 16 29 PM" src="https://github.com/user-attachments/assets/be228113-87af-47c9-96f5-ea7098cdeeec">
 
 Since the assignment involves working with KVM, check that KVM is enabled and functioning with below command
 lsmod | grep kvm
