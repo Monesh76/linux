@@ -77,6 +77,7 @@ Inside x86.c, look for the function handling VM exits i.e __vmx_handle_exit.
 This function is where KVM processes different types of VM exits
 
 Check for __vmx_handle_exit function and change the add the code menioned below
+
 /* Define global counters at the top of the file */
 static unsigned long long exit_counts[256] = {0};  // Array for per-exit-type counters
 static unsigned long long total_exit_count = 0;    // Global total exit counter
@@ -114,12 +115,10 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath) {
     union vmx_exit_reason exit_reason = vmx->exit_reason;
     u32 vectoring_info = vmx->idt_vectoring_info;
     u16 exit_handler_index;
-
     /* Update exit counters */
     int exit_type = exit_reason.basic;  // Get the basic exit type
     exit_counts[exit_type]++;
     total_exit_count++;
-
     /* Log exit statistics every EXIT_PRINT_THRESHOLD exits */
     if (total_exit_count % EXIT_PRINT_THRESHOLD == 0) {
         log_exit_statistics();
